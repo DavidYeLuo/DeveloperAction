@@ -8,12 +8,14 @@ public class PlayerMovement : MonoBehaviour {
 
     private Camera cam;
     private CameraMovement camMovement;
+    private Rigidbody rb;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         cam = GetComponentInChildren<Camera>();
         camMovement = cam.GetComponent<CameraMovement>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -35,15 +37,21 @@ public class PlayerMovement : MonoBehaviour {
      * Moves the character from user inputs
      * Note: Rotation plays a role on telling where foward is
      */ 
-        float deltaX = Input.GetAxis("Horizontal") * distMultiplier;
-        float deltaY = Input.GetAxis("Vertical") * distMultiplier;
+        float horInput = Input.GetAxis("Horizontal");
+        float verInput = Input.GetAxis("Vertical");
 
         /*
          * TODO: Use forces for movements instead of changing directly from transform.
-         */ 
-        Vector3 changeIndistance = new Vector3(deltaX, 0, deltaY);
+         */
+        /* Trying to replace
+        * Vector3 changeIndistance = new Vector3(deltaX, 0, deltaY);
+        *
+        * transform.Translate(changeIndistance);
+        */
 
-        transform.Translate(changeIndistance);
+        //rb.AddForce(horInput * distMultiplier, 0, verInput * distMultiplier, ForceMode.Force);
+        rb.AddForce(transform.forward * verInput * distMultiplier, ForceMode.Impulse);
+        rb.AddForce(transform.right * horInput * distMultiplier, ForceMode.Impulse);
     }
 
 

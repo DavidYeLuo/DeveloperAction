@@ -33,8 +33,10 @@ TODO:
  --------------------------------------------------------------------------------------------------------------------------------
 [-]Player movement
 	[x]The keys 'W' and 'S' changes Z-axis values of the player's position and the keys 'A' and 'D' changes the X-axis. (8/10/2018)
-	[]Player movement by changing transform makes physic mechanics clunky. (8/12/2018)
-		[] Use forces from rigid body instead. (8/12/2018)
+	[-]Player movement by changing transform makes physic mechanics clunky. (8/12/2018)
+		[-] Use forces from rigid body instead. (8/12/2018)
+		[] Research on how to make smooth movement. (8/15/2018)
+		[] Concern about how we're going to implement moving up a hill or stairs. (8/15/2018)
 [x]Player Mouse movement.
 	[x](I feel like) Intuitively and naively the change in xy-coordinate. (8/10/2018)
 	[x]From a youtube, I shouldn't change the transform.rotation directly. (8/10/2018)
