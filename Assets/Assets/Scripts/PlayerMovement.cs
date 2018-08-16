@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float distMultiplier;
 
@@ -24,34 +25,24 @@ public class PlayerMovement : MonoBehaviour {
         RotateAroundYaxis();
     }
 
-    void FixedUpdate ()
+    void FixedUpdate()
     {
         KeyPress();
         Move();
-	}
+    }
 
 
     private void Move()
     {
-    /**
-     * Moves the character from user inputs
-     * Note: Rotation plays a role on telling where foward is
-     */ 
+        /**
+         * Moves the character from user inputs
+         * Note: Rotation plays a role on telling where foward is
+         */
         float horInput = Input.GetAxis("Horizontal");
         float verInput = Input.GetAxis("Vertical");
 
-        /*
-         * TODO: Use forces for movements instead of changing directly from transform.
-         */
-        /* Trying to replace
-        * Vector3 changeIndistance = new Vector3(deltaX, 0, deltaY);
-        *
-        * transform.Translate(changeIndistance);
-        */
-
-        //rb.AddForce(horInput * distMultiplier, 0, verInput * distMultiplier, ForceMode.Force);
-        rb.AddForce(transform.forward * verInput * distMultiplier, ForceMode.Impulse);
-        rb.AddForce(transform.right * horInput * distMultiplier, ForceMode.Impulse);
+        Vector3 moveDirection = ((transform.forward * verInput) + (transform.right * horInput)).normalized * distMultiplier;
+        rb.AddForce(moveDirection, ForceMode.Impulse); 
     }
 
 
@@ -59,7 +50,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         /** Key presses are handled here **/
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Unlocks the cursors from 1st person
             Cursor.lockState = CursorLockMode.None;
