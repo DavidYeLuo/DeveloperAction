@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float distMultiplier;
 
     private Camera cam;
     private CameraMovement camMovement;
+    private Rigidbody rb;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         cam = GetComponentInChildren<Camera>();
         camMovement = cam.GetComponent<CameraMovement>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -22,28 +25,24 @@ public class PlayerMovement : MonoBehaviour {
         RotateAroundYaxis();
     }
 
-    void FixedUpdate ()
+    void FixedUpdate()
     {
         KeyPress();
         Move();
-	}
+    }
 
 
     private void Move()
     {
-    /**
-     * Moves the character from user inputs
-     * Note: Rotation plays a role on telling where foward is
-     */ 
-        float deltaX = Input.GetAxis("Horizontal") * distMultiplier;
-        float deltaY = Input.GetAxis("Vertical") * distMultiplier;
+        /**
+         * Moves the character from user inputs
+         * Note: Rotation plays a role on telling where foward is
+         */
+        float horInput = Input.GetAxis("Horizontal");
+        float verInput = Input.GetAxis("Vertical");
 
-        /*
-         * TODO: Use forces for movements instead of changing directly from transform.
-         */ 
-        Vector3 changeIndistance = new Vector3(deltaX, 0, deltaY);
-
-        transform.Translate(changeIndistance);
+        Vector3 moveDirection = ((transform.forward * verInput) + (transform.right * horInput)).normalized * distMultiplier;
+        rb.AddForce(moveDirection, ForceMode.Impulse); 
     }
 
 
@@ -51,7 +50,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         /** Key presses are handled here **/
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Unlocks the cursors from 1st person
             Cursor.lockState = CursorLockMode.None;
